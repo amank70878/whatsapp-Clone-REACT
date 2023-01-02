@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import Home from "./page/Home";
+import styled from "styled-components";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Router>
+        <Wrap>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/rooms/:roomId" element={<Home />} />
+          </Routes>
+        </Wrap>
+      </Router>
+    </>
   );
 }
 
 export default App;
+
+const Wrap = styled.section`
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  background-color: var(--bgColor);
+`;
