@@ -357,7 +357,7 @@ const Wrap = styled.section`
   }
 `;
 const Chat = styled.div`
-  margin: 5px 10px;
+  margin: 6px 10px;
   bottom: 10px;
   max-width: 60%;
 `;

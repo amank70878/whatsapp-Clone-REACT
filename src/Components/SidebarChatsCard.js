@@ -2,26 +2,24 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Avatar } from "@mui/material";
 import { Link } from "react-router-dom";
-import { useParams } from "react-router-dom";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "../firebase";
 
 const SidebarChatsCard = ({ name, id }) => {
-  const { roomId } = useParams();
-  const [seed, setSeed] = useState("");
+  // eslint-disable-next-line
+  const [seed, setSeed] = useState(Math.floor(Math.random() * 5000));
   const [lastMessage, setLastMessage] = useState("");
   const [fetchedMessages, setFetchedMessages] = useState("");
-  console.log("fetchedMessages :-> ", fetchedMessages);
-  console.log(id);
+  // console.log(`fetchedmessages :-> ${fetchedMessages}`);
+  // console.log(`last messages :-> ${lastMessage}`);
 
-  useEffect(() => {
-    setSeed(Math.floor(Math.random() * 5000));
-  }, []);
-
+  //fetching rooms id with useEffect hook
   useEffect(() => {
     const fetchMessagesFunc = async () => {
-      const msgDataCollectionRef = collection(db, `room/${id}/messages`);
-      const q = query(msgDataCollectionRef, orderBy("timestamp", "desc"));
+      const q = query(
+        collection(db, `room/${id}/messages`),
+        orderBy("timestamp", "desc")
+      );
       const result = await getDocs(q);
       setFetchedMessages(
         result.docs.map((doc) => ({
@@ -30,15 +28,14 @@ const SidebarChatsCard = ({ name, id }) => {
         }))
       );
     };
-    fetchMessagesFunc();
-  }, []);
+    fetchTimeFunc();
+    fetchMessagesFunc(); // eslint-disable-next-line
+  }, [id]);
 
-  // const fetchLastMessageFunc = async () => {
-  //   const num = await (fetchedMessages.length - 1);
-  //   const lastMsgVar = await fetchedMessages[num].message;
-  //   setLastMessage(lastMsgVar);
-  // };
-  // fetchLastMessageFunc();
+  const fetchTimeFunc = async () => {
+    const lastSeenVar = await fetchedMessages[0].message;
+    setLastMessage(lastSeenVar);
+  };
 
   return (
     <Link to={`/rooms/${id}`}>
@@ -48,7 +45,9 @@ const SidebarChatsCard = ({ name, id }) => {
         />
         <div className="rightChats">
           <div className="ChatsSection--title">{name}</div>
-          <div className="ChatsSection--lastChat">{lastMessage}...</div>
+          <div className="ChatsSection--lastChat">
+            {lastMessage ? lastMessage : "last message fetching...."}
+          </div>
           <div className="ChatsSection--time">yesterday</div>
         </div>
       </ChatsSection>
@@ -64,8 +63,11 @@ const ChatsSection = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  background-color: var(--bhColor);
+  background-color: var(--bgColor);
   border-bottom: 0.5px solid rgba(225, 225, 225, 0.15);
+  &:hover {
+    background-color: #162731e0;
+  }
   .rightChats {
     display: flex;
     flex-direction: column;

@@ -5,7 +5,13 @@ import SearchIcon from "@mui/icons-material/Search";
 import SegmentIcon from "@mui/icons-material/Segment";
 import SidebarChatsCard from "./SidebarChatsCard";
 import { db } from "../firebase";
-import { collection, addDoc, getDocs } from "@firebase/firestore";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  serverTimestamp,
+  orderBy,
+} from "@firebase/firestore";
 
 const Sidebar = () => {
   const [room, setRoom] = useState("");
@@ -16,7 +22,10 @@ const Sidebar = () => {
   }, []);
 
   const fetchAllRooms = async () => {
-    const rooms = await getDocs(roomsCollectionRef);
+    const rooms = await getDocs(
+      collection(db, "room"),
+      orderBy("addedTime", "desc")
+    );
     setRoom(rooms.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
   };
 
@@ -25,6 +34,7 @@ const Sidebar = () => {
     const newRoom = prompt("enter a new to create a new room");
     await addDoc(roomsCollectionRef, {
       name: newRoom,
+      addedTime: serverTimestamp(),
     });
     fetchAllRooms();
   };

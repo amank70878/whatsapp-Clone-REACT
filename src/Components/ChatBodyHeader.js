@@ -9,15 +9,15 @@ import { db } from "../firebase";
 const ChatBodyHeader = (props) => {
   const [fetchedMessages, setFetchedMessages] = useState("");
   const { roomId } = useParams();
-  const [seed, setSeed] = useState("");
+  const [seed, setSeed] = useState(Math.floor(Math.random() * 5000));
   const [time, setTime] = useState("");
 
   useEffect(() => {
-    const randomNumberVar = Math.floor(Math.random() * 5000);
-    setSeed(randomNumberVar);
     const fetchMessagesFunc = async () => {
-      const msgDataCollectionRef = collection(db, `room/${roomId}/messages`);
-      const q = query(msgDataCollectionRef, orderBy("timestamp", "desc"));
+      const q = query(
+        collection(db, `room/${roomId}/messages`),
+        orderBy("timestamp", "desc")
+      );
       const result = await getDocs(q);
       setFetchedMessages(
         result.docs.map((doc) => ({
@@ -25,15 +25,15 @@ const ChatBodyHeader = (props) => {
           id: doc.id,
         }))
       );
-      fetchTimeFunc();
     };
+    fetchTimeFunc();
     fetchMessagesFunc(); // eslint-disable-next-line
   }, []);
 
   const fetchTimeFunc = async () => {
     const lastMsgVar = await (fetchedMessages.length - 1);
     const lastSeenVar = await fetchedMessages[lastMsgVar].timestamp.toDate();
-    const timeVar = new Date(lastSeenVar).toLocaleTimeString();
+    const timeVar = await new Date(lastSeenVar).toLocaleTimeString();
     setTime(timeVar);
   };
 
@@ -47,7 +47,7 @@ const ChatBodyHeader = (props) => {
         <div className="ChatBodyHeader--left--info">
           <div className="userName">{props.name ? props.name : "default"}</div>
           <div className="userLastSeen">
-            last seen at {time ? time : "....."}
+            last Message at {time ? time : "fetching..."}
           </div>
         </div>
       </div>
