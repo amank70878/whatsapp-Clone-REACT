@@ -84,13 +84,12 @@ const Sidebar = () => {
 export default Sidebar;
 
 const SidebarSection = styled.section`
-  flex: 0.3;
+  width: 23vw;
   background-color: inherit;
-  overflow: hidden;
   border-right: 1px solid #d1d7db2b;
   border-left: 1px solid #d1d7db2b;
-  overflow-x: hidden;
-  /* overflow-y: scroll; */
+  border-bottom: 1px solid #d1d7db2b;
+  overflow: hidden;
 `;
 const SidebarChatsContainer = styled.section`
   min-height: 100%;

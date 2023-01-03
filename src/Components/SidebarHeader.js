@@ -12,13 +12,13 @@ const SidebarHeader = () => {
       setImgUrl(url);
     };
     fetchingImgUrlFunc();
-  }, []);
+  }, [toggleTrue]);
 
   const logoutFunc = () => {
-    console.log("logout");
     localStorage.clear();
     window.location.reload();
   };
+
   const toggleTrueFunc = () => {
     setToggleTrue((previousState) => !previousState);
   };

@@ -29,7 +29,6 @@ const Home = () => {
 export default Home;
 
 const Container = styled.div`
-  width: 95vw;
   height: 95vh;
   display: flex;
   flex-direction: row;

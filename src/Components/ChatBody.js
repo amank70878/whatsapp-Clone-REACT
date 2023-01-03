@@ -69,7 +69,9 @@ const ChatBody = () => {
     <ChatBodySection>
       {roomId ? (
         <ChatBodySectionBg>
-          <ChatBodyHeader name={data.name} key={roomId} />
+          <ChatHeaderSpace>
+            <ChatBodyHeader name={data.name} key={roomId} />
+          </ChatHeaderSpace>
           <ChatBodyDiv>
             <Wrap>
               {!fetchedMessages ? (
@@ -317,34 +319,42 @@ const ChatBody = () => {
 export default ChatBody;
 
 const ChatBodySection = styled.section`
-  flex: 0.7;
+  width: 68vw;
   background-image: url(./images/bg.png);
   background-repeat: repeat;
   background-size: 45%;
   background-position: center;
   position: relative;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 `;
 const ChatBodySectionBg = styled.section`
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   background-color: #0d141aea;
+  overflow-x: hidden;
+`;
+const ChatHeaderSpace = styled.div`
+  overflow: hidden;
+  width: 68vw;
+  position: fixed;
+  z-index: 1;
 `;
 const ChatBodyDiv = styled.section`
   width: 100%;
-  height: 100%;
+  padding-bottom: 50px;
+  padding-top: 60px;
   overflow-x: hidden;
-  padding: 10px 15px;
+  overflow-y: visible;
 `;
 const Wrap = styled.section`
   position: relative;
   width: 100%;
-  /* height: 100%; */
+  height: 100%;
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   flex-wrap: nowrap;
-  overflow-x: hidden;
-  overflow-y: scroll;
   .others {
     margin-right: auto;
     background-color: #202c33;
@@ -392,11 +402,12 @@ const Time = styled.span`
   letter-spacing: 0.5px;
 `;
 const ChatBodyInput = styled.section`
+  overflow: hidden;
+  width: 68vw;
   padding: 0 20px;
-  width: 100%;
   height: 6%;
-  position: absolute;
-  bottom: 0;
+  position: fixed;
+  bottom: 21px;
   background-color: red;
   background-color: var(--componentBgColor);
   display: flex;
