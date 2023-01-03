@@ -16,6 +16,7 @@ import {
 const Sidebar = () => {
   const [room, setRoom] = useState("");
   const roomsCollectionRef = collection(db, "room");
+  const [toggleTrue, setToggleTrue] = useState(false);
 
   useEffect(() => {
     fetchAllRooms(); // eslint-disable-next-line
@@ -39,6 +40,10 @@ const Sidebar = () => {
     fetchAllRooms();
   };
 
+  const toggleChatFunc = () => {
+    setToggleTrue((previousState) => !previousState);
+  };
+
   return (
     <SidebarSection>
       <SidebarHeader />
@@ -49,12 +54,24 @@ const Sidebar = () => {
               <SearchIcon className="SideChatsSearch-svg1" />
               <input type="text" placeholder="Search or start new chat" />
             </div>
-            <SegmentIcon className="SideChatsSearch-svg2" />
+            <span>
+              <SegmentIcon />
+            </span>
+            <span>
+              <svg
+                className="toggleChatFuncClass"
+                onClick={toggleChatFunc}
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 448 512"
+              >
+                <path d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z" />
+              </svg>
+            </span>
           </SideChatsSearch>
           <AddNewRoom>
             <button onClick={addRoomFunc}>Add a new Room</button>
           </AddNewRoom>
-          <SidebarChatsBody>
+          <SidebarChatsBody toggle={toggleTrue}>
             {!room.length ? (
               <h1
                 style={{
@@ -64,7 +81,7 @@ const Sidebar = () => {
                   fontWeight: "600",
                 }}
               >
-                Loading rooms, please wait
+                Loading rooms, please wait......
               </h1>
             ) : (
               room.map((item, k) => {
@@ -90,6 +107,11 @@ const SidebarSection = styled.section`
   border-left: 1px solid #d1d7db2b;
   border-bottom: 1px solid #d1d7db2b;
   overflow: hidden;
+  z-index: 100;
+  @media only screen and (max-width: 800px) {
+    border: none;
+    width: 100vw;
+  }
 `;
 const SidebarChatsContainer = styled.section`
   min-height: 100%;
@@ -103,7 +125,7 @@ const SideChatsSearch = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   svg {
     color: var(--svgColor);
     fill: currentColor;
@@ -112,16 +134,6 @@ const SideChatsSearch = styled.div`
   .SideChatsSearch-svg1 {
     width: 20px;
     height: 20px;
-  }
-  .SideChatsSearch-svg2 {
-    margin: 0 10px;
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    padding: 3px;
-    &:hover {
-      background-color: var(--greenTextColor);
-    }
   }
   .SideChats--InputDiv {
     width: 90%;
@@ -147,10 +159,25 @@ const SideChatsSearch = styled.div`
       }
     }
   }
+  span {
+    display: grid;
+    place-items: center;
+  }
+  span svg {
+    margin: 0 5px;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    padding: 4px;
+    &:hover {
+      background-color: var(--greenTextColor);
+    }
+  }
 `;
 const AddNewRoom = styled.div`
   display: grid;
   place-items: center;
+  margin: 10px 0;
   & > button {
     padding: 5px 10px;
     background-color: #6288ac;
@@ -158,7 +185,28 @@ const AddNewRoom = styled.div`
     font-weight: 600;
     border-radius: 12px;
   }
+  @media (max-width: 1100px) {
+    button {
+      padding: 1px 7px;
+      font-size: 0.8em;
+      font-weight: 500;
+      border-radius: 9px;
+    }
+  }
+  @media only screen and (max-width: 800px) {
+    display: none;
+  }
 `;
 const SidebarChatsBody = styled.div`
   padding: 10px 10px;
+  @media only screen and (max-width: 800px) {
+    padding: 0px;
+    display: ${(props) => `${props.toggle ? "flex" : "none"}`};
+    flex-direction: column;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    height: 120px;
+    overflow-x: scroll;
+    overflow-y: hidden;
+  }
 `;

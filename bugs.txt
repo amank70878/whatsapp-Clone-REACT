@@ -1,0 +1,3 @@
+add room just if the user click on "OK" prompt
+delete a Room
+fetch the chatBg ---> https://web.whatsapp.com/img/bg-chat-tile-dark_a4be512e7195b6b733d9110b408f075d.png

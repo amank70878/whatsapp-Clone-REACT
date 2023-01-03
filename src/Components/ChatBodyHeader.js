@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import SearchIcon from "@mui/icons-material/Search";
 import { Avatar } from "@mui/material";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
@@ -47,35 +46,16 @@ const ChatBodyHeader = (props) => {
           />
           <div className="ChatBodyHeader--left--info">
             <div className="userName">
-              {props.name ? props.name : "default"}
+              {props.name
+                ? props.name.length < 30
+                  ? props.name
+                  : props.name.slice(0, 30) + `......`
+                : "Default Name"}
             </div>
             <div className="userLastSeen">
               last Message at {time ? time : "fetching..."}
             </div>
           </div>
-        </div>
-        <div className="ChatBodyheader--right">
-          <span>
-            <SearchIcon />
-          </span>
-          <span>
-            <svg
-              viewBox="0 0 24 24"
-              height="24"
-              width="24"
-              preserveAspectRatio="xMidYMid meet"
-              className=""
-              version="1.1"
-              x="0px"
-              y="0px"
-              enableBackground="new 0 0 24 24"
-            >
-              <path
-                fill="currentColor"
-                d="M12,7c1.104,0,2-0.896,2-2c0-1.105-0.895-2-2-2c-1.104,0-2,0.894-2,2 C10,6.105,10.895,7,12,7z M12,9c-1.104,0-2,0.894-2,2c0,1.104,0.895,2,2,2c1.104,0,2-0.896,2-2C13.999,9.895,13.104,9,12,9z M12,15 c-1.104,0-2,0.894-2,2c0,1.104,0.895,2,2,2c1.104,0,2-0.896,2-2C13.999,15.894,13.104,15,12,15z"
-              ></path>
-            </svg>
-          </span>
         </div>
       </ChatBodyHeadeR>
     </ChatBodyHeaderSection>
@@ -114,24 +94,6 @@ const ChatBodyHeaderSection = styled.nav`
         font-weight: 500;
         letter-spacing: 0.5px;
         color: var(--secondaryText);
-      }
-    }
-  }
-  .ChatBodyheader--right {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    span {
-      display: grid;
-      place-items: center;
-      margin-left: 20px;
-      svg {
-        width: 24px;
-        height: 24px;
-        color: var(--svgColor);
-        fill: currentColor;
-        cursor: pointer;
       }
     }
   }

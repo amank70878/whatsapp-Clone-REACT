@@ -72,10 +72,14 @@ const ChatBody = () => {
   return (
     <ChatBodySection>
       {roomId ? (
+        // chat roomId template section starts here
         <ChatBodySectionBg>
+          {/* chat header section starts here */}
           <ChatHeaderSpace>
             <ChatBodyHeader name={data.name} key={roomId} />
           </ChatHeaderSpace>
+
+          {/* chat body section starts here */}
           <ChatBodyDiv>
             <Wrap>
               {!fetchedMessages ? (
@@ -107,27 +111,64 @@ const ChatBody = () => {
             </Wrap>
             <div ref={lastmsgRef} />
           </ChatBodyDiv>
-          <ChatBodyInput>
-            <div className="ChatBodyInput--left">
-              <span>
-                <svg
-                  viewBox="0 0 24 24"
-                  height="24"
-                  width="24"
-                  preserveAspectRatio="xMidYMid meet"
-                  className="ekdr8vow dhq51u3o"
-                  version="1.1"
-                  x="0px"
-                  y="0px"
-                  enableBackground="new 0 0 24 24"
-                >
-                  <path
-                    fill="currentColor"
-                    d="M9.153,11.603c0.795,0,1.439-0.879,1.439-1.962S9.948,7.679,9.153,7.679 S7.714,8.558,7.714,9.641S8.358,11.603,9.153,11.603z M5.949,12.965c-0.026-0.307-0.131,5.218,6.063,5.551 c6.066-0.25,6.066-5.551,6.066-5.551C12,14.381,5.949,12.965,5.949,12.965z M17.312,14.073c0,0-0.669,1.959-5.051,1.959 c-3.505,0-5.388-1.164-5.607-1.959C6.654,14.073,12.566,15.128,17.312,14.073z M11.804,1.011c-6.195,0-10.826,5.022-10.826,11.217 s4.826,10.761,11.021,10.761S23.02,18.423,23.02,12.228C23.021,6.033,17.999,1.011,11.804,1.011z M12,21.354 c-5.273,0-9.381-3.886-9.381-9.159s3.942-9.548,9.215-9.548s9.548,4.275,9.548,9.548C21.381,17.467,17.273,21.354,12,21.354z  M15.108,11.603c0.795,0,1.439-0.879,1.439-1.962s-0.644-1.962-1.439-1.962s-1.439,0.879-1.439,1.962S14.313,11.603,15.108,11.603z"
-                  ></path>
-                </svg>
-              </span>
-              <span>
+
+          {/* chat input section starts here */}
+          <ChatBodyInputSpace>
+            <ChatBodyInput>
+              <div className="ChatBodyInput--left">
+                <span>
+                  <svg
+                    viewBox="0 0 24 24"
+                    height="24"
+                    width="24"
+                    preserveAspectRatio="xMidYMid meet"
+                    className="ekdr8vow dhq51u3o"
+                    version="1.1"
+                    x="0px"
+                    y="0px"
+                    enableBackground="new 0 0 24 24"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M9.153,11.603c0.795,0,1.439-0.879,1.439-1.962S9.948,7.679,9.153,7.679 S7.714,8.558,7.714,9.641S8.358,11.603,9.153,11.603z M5.949,12.965c-0.026-0.307-0.131,5.218,6.063,5.551 c6.066-0.25,6.066-5.551,6.066-5.551C12,14.381,5.949,12.965,5.949,12.965z M17.312,14.073c0,0-0.669,1.959-5.051,1.959 c-3.505,0-5.388-1.164-5.607-1.959C6.654,14.073,12.566,15.128,17.312,14.073z M11.804,1.011c-6.195,0-10.826,5.022-10.826,11.217 s4.826,10.761,11.021,10.761S23.02,18.423,23.02,12.228C23.021,6.033,17.999,1.011,11.804,1.011z M12,21.354 c-5.273,0-9.381-3.886-9.381-9.159s3.942-9.548,9.215-9.548s9.548,4.275,9.548,9.548C21.381,17.467,17.273,21.354,12,21.354z  M15.108,11.603c0.795,0,1.439-0.879,1.439-1.962s-0.644-1.962-1.439-1.962s-1.439,0.879-1.439,1.962S14.313,11.603,15.108,11.603z"
+                    ></path>
+                  </svg>
+                </span>
+                <span>
+                  <svg
+                    viewBox="0 0 24 24"
+                    height="24"
+                    width="24"
+                    preserveAspectRatio="xMidYMid meet"
+                    className=""
+                    version="1.1"
+                    x="0px"
+                    y="0px"
+                    enableBackground="new 0 0 24 24"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M1.816,15.556v0.002c0,1.502,0.584,2.912,1.646,3.972s2.472,1.647,3.974,1.647 c1.501,0,2.91-0.584,3.972-1.645l9.547-9.548c0.769-0.768,1.147-1.767,1.058-2.817c-0.079-0.968-0.548-1.927-1.319-2.698 c-1.594-1.592-4.068-1.711-5.517-0.262l-7.916,7.915c-0.881,0.881-0.792,2.25,0.214,3.261c0.959,0.958,2.423,1.053,3.263,0.215 c0,0,3.817-3.818,5.511-5.512c0.28-0.28,0.267-0.722,0.053-0.936c-0.08-0.08-0.164-0.164-0.244-0.244 c-0.191-0.191-0.567-0.349-0.957,0.04c-1.699,1.699-5.506,5.506-5.506,5.506c-0.18,0.18-0.635,0.127-0.976-0.214 c-0.098-0.097-0.576-0.613-0.213-0.973l7.915-7.917c0.818-0.817,2.267-0.699,3.23,0.262c0.5,0.501,0.802,1.1,0.849,1.685 c0.051,0.573-0.156,1.111-0.589,1.543l-9.547,9.549c-0.756,0.757-1.761,1.171-2.829,1.171c-1.07,0-2.074-0.417-2.83-1.173 c-0.755-0.755-1.172-1.759-1.172-2.828l0,0c0-1.071,0.415-2.076,1.172-2.83c0,0,5.322-5.324,7.209-7.211 c0.157-0.157,0.264-0.579,0.028-0.814c-0.137-0.137-0.21-0.21-0.342-0.342c-0.2-0.2-0.553-0.263-0.834,0.018 c-1.895,1.895-7.205,7.207-7.205,7.207C2.4,12.645,1.816,14.056,1.816,15.556z"
+                    ></path>
+                  </svg>
+                </span>
+              </div>
+              <form
+                action=""
+                className="ChatBodyInput--middleForm"
+                onSubmit={addChatFunc}
+              >
+                <input
+                  type="text"
+                  placeholder="Type a Message"
+                  value={iMessage}
+                  onChange={(e) => {
+                    setIMessage(e.target.value);
+                  }}
+                />
+                <button type="submit">Send</button>
+              </form>
+              <span className="ChatBodyInput--right">
                 <svg
                   viewBox="0 0 24 24"
                   height="24"
@@ -141,47 +182,15 @@ const ChatBody = () => {
                 >
                   <path
                     fill="currentColor"
-                    d="M1.816,15.556v0.002c0,1.502,0.584,2.912,1.646,3.972s2.472,1.647,3.974,1.647 c1.501,0,2.91-0.584,3.972-1.645l9.547-9.548c0.769-0.768,1.147-1.767,1.058-2.817c-0.079-0.968-0.548-1.927-1.319-2.698 c-1.594-1.592-4.068-1.711-5.517-0.262l-7.916,7.915c-0.881,0.881-0.792,2.25,0.214,3.261c0.959,0.958,2.423,1.053,3.263,0.215 c0,0,3.817-3.818,5.511-5.512c0.28-0.28,0.267-0.722,0.053-0.936c-0.08-0.08-0.164-0.164-0.244-0.244 c-0.191-0.191-0.567-0.349-0.957,0.04c-1.699,1.699-5.506,5.506-5.506,5.506c-0.18,0.18-0.635,0.127-0.976-0.214 c-0.098-0.097-0.576-0.613-0.213-0.973l7.915-7.917c0.818-0.817,2.267-0.699,3.23,0.262c0.5,0.501,0.802,1.1,0.849,1.685 c0.051,0.573-0.156,1.111-0.589,1.543l-9.547,9.549c-0.756,0.757-1.761,1.171-2.829,1.171c-1.07,0-2.074-0.417-2.83-1.173 c-0.755-0.755-1.172-1.759-1.172-2.828l0,0c0-1.071,0.415-2.076,1.172-2.83c0,0,5.322-5.324,7.209-7.211 c0.157-0.157,0.264-0.579,0.028-0.814c-0.137-0.137-0.21-0.21-0.342-0.342c-0.2-0.2-0.553-0.263-0.834,0.018 c-1.895,1.895-7.205,7.207-7.205,7.207C2.4,12.645,1.816,14.056,1.816,15.556z"
+                    d="M11.999,14.942c2.001,0,3.531-1.53,3.531-3.531V4.35c0-2.001-1.53-3.531-3.531-3.531 S8.469,2.35,8.469,4.35v7.061C8.469,13.412,9.999,14.942,11.999,14.942z M18.237,11.412c0,3.531-2.942,6.002-6.237,6.002 s-6.237-2.471-6.237-6.002H3.761c0,4.001,3.178,7.297,7.061,7.885v3.884h2.354v-3.884c3.884-0.588,7.061-3.884,7.061-7.885 L18.237,11.412z"
                   ></path>
                 </svg>
               </span>
-            </div>
-            <form
-              action=""
-              className="ChatBodyInput--middleForm"
-              onSubmit={addChatFunc}
-            >
-              <input
-                type="text"
-                placeholder="Type a Message"
-                value={iMessage}
-                onChange={(e) => {
-                  setIMessage(e.target.value);
-                }}
-              />
-              <button type="submit">Send</button>
-            </form>
-            <span className="ChatBodyInput--right">
-              <svg
-                viewBox="0 0 24 24"
-                height="24"
-                width="24"
-                preserveAspectRatio="xMidYMid meet"
-                className=""
-                version="1.1"
-                x="0px"
-                y="0px"
-                enableBackground="new 0 0 24 24"
-              >
-                <path
-                  fill="currentColor"
-                  d="M11.999,14.942c2.001,0,3.531-1.53,3.531-3.531V4.35c0-2.001-1.53-3.531-3.531-3.531 S8.469,2.35,8.469,4.35v7.061C8.469,13.412,9.999,14.942,11.999,14.942z M18.237,11.412c0,3.531-2.942,6.002-6.237,6.002 s-6.237-2.471-6.237-6.002H3.761c0,4.001,3.178,7.297,7.061,7.885v3.884h2.354v-3.884c3.884-0.588,7.061-3.884,7.061-7.885 L18.237,11.412z"
-                ></path>
-              </svg>
-            </span>
-          </ChatBodyInput>
+            </ChatBodyInput>
+          </ChatBodyInputSpace>
         </ChatBodySectionBg>
       ) : (
+        // chat starting template section starts here
         <ChatBodyStartingTab>
           <div></div>
           <div className="second">
@@ -325,7 +334,9 @@ export default ChatBody;
 
 const ChatBodySection = styled.section`
   width: 68vw;
-  background-image: url(./images/bg.png);
+  min-height: 86%;
+  max-height: 72%;
+  background-image: url("https://web.whatsapp.com/img/bg-chat-tile-dark_a4be512e7195b6b733d9110b408f075d.png");
   background-repeat: repeat;
   background-size: 45%;
   background-position: center;
@@ -333,11 +344,15 @@ const ChatBodySection = styled.section`
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  z-index: 100;
+  @media only screen and (max-width: 800px) {
+    width: 100vw;
+  }
 `;
 const ChatBodySectionBg = styled.section`
   width: 100%;
   min-height: 100%;
-  background-color: #0d141aea;
+  background-color: #0d141a86;
   overflow-x: hidden;
 `;
 const ChatHeaderSpace = styled.div`
@@ -345,13 +360,15 @@ const ChatHeaderSpace = styled.div`
   width: 68vw;
   position: fixed;
   z-index: 1;
+  border-bottom: 5px solid #0d141aea;
+  @media only screen and (max-width: 800px) {
+    width: 100vw;
+  }
 `;
 const ChatBodyDiv = styled.section`
   width: 100%;
   padding-bottom: 50px;
   padding-top: 60px;
-  /* overflow-x: hidden;
-  overflow-y: visible; */
 `;
 const Wrap = styled.section`
   position: relative;
@@ -360,7 +377,6 @@ const Wrap = styled.section`
   display: flex;
   flex-direction: column-reverse;
   flex-wrap: nowrap;
-  scrollbar-color: red;
   .others {
     margin-right: auto;
     background-color: #202c33;
@@ -407,13 +423,22 @@ const Time = styled.span`
   margin: 3px 0;
   letter-spacing: 0.5px;
 `;
-const ChatBodyInput = styled.section`
+const ChatBodyInputSpace = styled.section`
   overflow: hidden;
   width: 68vw;
-  padding: 0 20px;
-  height: 6%;
+  bottom: 22px;
   position: fixed;
-  bottom: 21px;
+  z-index: 1;
+  @media only screen and (max-width: 800px) {
+    width: 100vw;
+    bottom: 0;
+  }
+`;
+const ChatBodyInput = styled.section`
+  box-sizing: content-box;
+  border-top: 5px solid #0d141aea;
+  padding: 10px 20px;
+  height: 6%;
   background-color: red;
   background-color: var(--componentBgColor);
   display: flex;
@@ -434,7 +459,7 @@ const ChatBodyInput = styled.section`
     align-items: center;
     justify-content: center;
     padding: 0 10px;
-    flex: 1;
+    width: 80%;
     & > input {
       flex: 1;
       background-color: #2a3942;

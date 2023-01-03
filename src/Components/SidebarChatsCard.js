@@ -38,14 +38,25 @@ const SidebarChatsCard = ({ name, id }) => {
     <Link to={`/rooms/${id}`}>
       <ChatsSection>
         <Avatar
+          className="avatar"
           src={`https://avatars.dicebear.com/api/avataaars/${seed}.svg`}
         />
         <div className="rightChats">
-          <div className="ChatsSection--title">{name}</div>
-          <div className="ChatsSection--lastChat">
-            {lastMessage ? lastMessage : "last message fetching...."}
+          <div className="ChatsSection--title">
+            {name
+              ? name.length < 22
+                ? name
+                : name.slice(0, 22) + `...`
+              : "Default Name"}
           </div>
-          <div className="ChatsSection--time">yesterday</div>
+          <div className="ChatsSection--lastChat">
+            {lastMessage
+              ? lastMessage.length < 22
+                ? lastMessage
+                : lastMessage.slice(0, 22) + `...`
+              : "fetching..."}
+          </div>
+          {/* <div className="ChatsSection--time">yesterday</div> */}
         </div>
       </ChatsSection>
     </Link>
@@ -55,13 +66,47 @@ const SidebarChatsCard = ({ name, id }) => {
 export default SidebarChatsCard;
 
 const ChatsSection = styled.div`
-  margin: 5px 0;
+  margin: 5px;
   padding: 10px;
   display: flex;
   flex-direction: row;
   align-items: center;
   background-color: var(--bgColor);
   border-bottom: 0.5px solid rgba(225, 225, 225, 0.15);
+  @media only screen and (max-width: 1350px) {
+    .rightChats {
+      padding: 0 5px;
+      .ChatsSection--lastChat {
+        font-size: 0.75em;
+        color: red;
+      }
+    }
+  }
+  @media only screen and (max-width: 800px) {
+    padding: 5px;
+    margin: 5px;
+    width: 40vw;
+    height: 45px;
+    border: none;
+    border-radius: 10px;
+    background-color: var(--componentBgColor);
+    .avatar {
+      width: 30px;
+      height: 30px;
+    }
+    .rightChats {
+      padding: 0 5px;
+      .ChatsSection--title {
+        color: red;
+      }
+      .ChatsSection--time {
+        display: none;
+      }
+      .ChatsSection--lastChat {
+        display: none;
+      }
+    }
+  }
   &:hover {
     background-color: #162731e0;
   }
@@ -74,8 +119,15 @@ const ChatsSection = styled.div`
     line-height: 1.2;
     flex: 1;
     .ChatsSection--title {
-      font-size: 1.3em;
+      font-size: 1.2em;
       color: #e9edef;
+      white-space: nowrap;
+      @media only screen and (max-width: 1350px) {
+        font-size: 1em;
+      }
+      @media only screen and (max-width: 800px) {
+        font-size: 0.8em;
+      }
     }
     .ChatsSection--lastChat {
       font-size: 0.9em;

@@ -33,4 +33,10 @@ const Container = styled.div`
   display: flex;
   flex-direction: row;
   color: var(--textColor);
+  overflow: hidden;
+  @media only screen and (max-width: 800px) {
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+  }
 `;
