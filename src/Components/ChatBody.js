@@ -2,7 +2,7 @@ import styled from "styled-components";
 import ChatBodyHeader from "./ChatBodyHeader";
 import { useParams } from "react-router-dom";
 import { db } from "../firebase";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   addDoc,
   collection,
@@ -22,6 +22,7 @@ const ChatBody = () => {
   const [fetchedMessages, setFetchedMessages] = useState("");
   const loggedUserName = localStorage.getItem("loggedInWhatsappCloneUser");
   const loggedUserEmail = localStorage.getItem("loggedInWhatsappCloneEmail");
+  const lastmsgRef = useRef(null);
 
   useEffect(() => {
     fetchMessagesFunc();
@@ -49,6 +50,7 @@ const ChatBody = () => {
   };
 
   const fetchMessagesFunc = async () => {
+    lastmsgRef.current?.scrollIntoView();
     const msgDataCollectionRef = collection(db, `room/${roomId}/messages`);
     const q = query(msgDataCollectionRef, orderBy("timestamp", "desc"));
     const result = await getDocs(q);
@@ -64,7 +66,9 @@ const ChatBody = () => {
     if (event.key === "Enter") {
       fetchMessagesFunc();
     }
+    lastmsgRef.current?.scrollIntoView();
   });
+
   return (
     <ChatBodySection>
       {roomId ? (
@@ -101,6 +105,7 @@ const ChatBody = () => {
                 })
               )}
             </Wrap>
+            <div ref={lastmsgRef} />
           </ChatBodyDiv>
           <ChatBodyInput>
             <div className="ChatBodyInput--left">
@@ -345,16 +350,17 @@ const ChatBodyDiv = styled.section`
   width: 100%;
   padding-bottom: 50px;
   padding-top: 60px;
-  overflow-x: hidden;
-  overflow-y: visible;
+  /* overflow-x: hidden;
+  overflow-y: visible; */
 `;
 const Wrap = styled.section`
   position: relative;
   width: 100%;
   height: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   flex-wrap: nowrap;
+  scrollbar-color: red;
   .others {
     margin-right: auto;
     background-color: #202c33;

@@ -6,12 +6,9 @@ import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "../firebase";
 
 const SidebarChatsCard = ({ name, id }) => {
-  // eslint-disable-next-line
-  const [seed, setSeed] = useState(Math.floor(Math.random() * 5000));
+  const seed = Math.floor(Math.random() * 5000);
   const [lastMessage, setLastMessage] = useState("");
   const [fetchedMessages, setFetchedMessages] = useState("");
-  // console.log(`fetchedmessages :-> ${fetchedMessages}`);
-  // console.log(`last messages :-> ${lastMessage}`);
 
   //fetching rooms id with useEffect hook
   useEffect(() => {
