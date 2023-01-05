@@ -29,13 +29,17 @@ const Home = () => {
 export default Home;
 
 const Container = styled.div`
+  width: 85vw;
   height: 95vh;
   display: flex;
   flex-direction: row;
   color: var(--textColor);
   overflow: hidden;
+  @media only screen and (max-width: 1500px) {
+    width: 90vw;
+    height: 95vh;
+  }
   @media only screen and (max-width: 800px) {
-    flex-direction: column;
     width: 100vw;
     height: 100vh;
   }

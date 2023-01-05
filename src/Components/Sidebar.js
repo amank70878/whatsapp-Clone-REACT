@@ -4,6 +4,7 @@ import SidebarHeader from "./SidebarHeader";
 import SearchIcon from "@mui/icons-material/Search";
 import SegmentIcon from "@mui/icons-material/Segment";
 import SidebarChatsCard from "./SidebarChatsCard";
+import { useDispatch, useSelector } from "react-redux";
 import { db } from "../firebase";
 import {
   collection,
@@ -14,13 +15,14 @@ import {
 } from "@firebase/firestore";
 
 const Sidebar = () => {
+  const dispatch = useDispatch();
+  const { menuToggleState } = useSelector((state) => state.amountRedur);
   const [room, setRoom] = useState("");
   const roomsCollectionRef = collection(db, "room");
-  const [toggleTrue, setToggleTrue] = useState(false);
 
   useEffect(() => {
     fetchAllRooms(); // eslint-disable-next-line
-  }, []);
+  }, [menuToggleState]);
 
   const fetchAllRooms = async () => {
     const rooms = await getDocs(
@@ -33,19 +35,24 @@ const Sidebar = () => {
   const addRoomFunc = async (e) => {
     e.preventDefault();
     const newRoom = prompt("enter a new to create a new room");
-    await addDoc(roomsCollectionRef, {
-      name: newRoom,
-      addedTime: serverTimestamp(),
-    });
-    fetchAllRooms();
+    if (newRoom) {
+      await addDoc(roomsCollectionRef, {
+        name: newRoom,
+        addedTime: serverTimestamp(),
+      });
+      fetchAllRooms();
+    }
   };
 
   const toggleChatFunc = () => {
-    setToggleTrue((previousState) => !previousState);
+    dispatch({
+      type: "menuToggleType",
+      payload: false,
+    });
   };
 
   return (
-    <SidebarSection>
+    <SidebarSection toggleByChatHeader={menuToggleState}>
       <SidebarHeader />
       <SidebarChatsContainer>
         <SideChats>
@@ -59,8 +66,8 @@ const Sidebar = () => {
             </span>
             <span>
               <svg
-                className="toggleChatFuncClass"
                 onClick={toggleChatFunc}
+                className="toggleChatFuncClass"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 448 512"
               >
@@ -71,7 +78,12 @@ const Sidebar = () => {
           <AddNewRoom>
             <button onClick={addRoomFunc}>Add a new Room</button>
           </AddNewRoom>
-          <SidebarChatsBody toggle={toggleTrue}>
+          {room && (
+            <SidebarChatsBodyHeading>
+              WhatsApp Clone's Server Rooms :
+            </SidebarChatsBodyHeading>
+          )}
+          <SidebarChatsBody>
             {!room.length ? (
               <h1
                 style={{
@@ -101,16 +113,27 @@ const Sidebar = () => {
 export default Sidebar;
 
 const SidebarSection = styled.section`
-  width: 23vw;
+  flex: 0.25;
   background-color: inherit;
   border-right: 1px solid #d1d7db2b;
   border-left: 1px solid #d1d7db2b;
   border-bottom: 1px solid #d1d7db2b;
   overflow: hidden;
   z-index: 100;
+  @media only screen and (max-width: 1200px) {
+    flex: 0.35;
+  }
   @media only screen and (max-width: 800px) {
-    border: none;
-    width: 100vw;
+    width: ${(props) => `${props.toggleByChatHeader ? "80vw" : "0vw"}`};
+    position: fixed;
+    z-index: 1000;
+    min-height: 100%;
+    background-color: var(--bgColor);
+    transition: all 200ms ease-in;
+    border-radius: 0 15px 15px 0;
+  }
+  @media only screen and (max-width: 500px) {
+    width: ${(props) => `${props.toggleByChatHeader ? "95vw" : "0vw"}`};
   }
 `;
 const SidebarChatsContainer = styled.section`
@@ -145,7 +168,7 @@ const SideChatsSearch = styled.div`
     padding: 5px 15px;
     input {
       padding: 0px 10px;
-      padding-left: 25px;
+      padding-left: 15px;
       width: 100%;
       background-color: inherit;
       border: none;
@@ -156,6 +179,9 @@ const SideChatsSearch = styled.div`
       color: rgba(225, 225, 225, 0.4);
       &::placeholder {
         color: rgba(225, 225, 225, 0.4);
+      }
+      @media only screen and (max-width: 800px) {
+        padding: 5px 0px;
       }
     }
   }
@@ -173,6 +199,13 @@ const SideChatsSearch = styled.div`
       background-color: var(--greenTextColor);
     }
   }
+  .toggleChatFuncClass {
+    transform: rotate(90deg);
+    display: none;
+    @media only screen and (max-width: 800px) {
+      display: inline;
+    }
+  }
 `;
 const AddNewRoom = styled.div`
   display: grid;
@@ -181,32 +214,31 @@ const AddNewRoom = styled.div`
   & > button {
     padding: 5px 10px;
     background-color: #6288ac;
+    background-color: var(--greenTextColor);
     font-size: 0.9em;
     font-weight: 600;
     border-radius: 12px;
+    border: none;
+    outline: none;
   }
   @media (max-width: 1100px) {
     button {
-      padding: 1px 7px;
-      font-size: 0.8em;
+      padding: 3px 7px;
+      font-size: 0.75em;
       font-weight: 500;
       border-radius: 9px;
     }
   }
   @media only screen and (max-width: 800px) {
-    display: none;
+    /* display: none; */
   }
 `;
+const SidebarChatsBodyHeading = styled.h1`
+  padding: 0px 20px;
+  font-size: 1.1em;
+  font-weight: 400;
+  text-align: center;
+`;
 const SidebarChatsBody = styled.div`
-  padding: 10px 10px;
-  @media only screen and (max-width: 800px) {
-    padding: 0px;
-    display: ${(props) => `${props.toggle ? "flex" : "none"}`};
-    flex-direction: column;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-    height: 120px;
-    overflow-x: scroll;
-    overflow-y: hidden;
-  }
+  padding: 0px 10px;
 `;

@@ -13,8 +13,12 @@ import {
   query,
   serverTimestamp,
 } from "firebase/firestore";
+import { useDispatch, useSelector } from "react-redux";
+import MenuTwoToneIcon from "@material-ui/icons/MenuTwoTone";
 
 const ChatBody = () => {
+  const dispatch = useDispatch();
+  const { menuToggleState } = useSelector((state) => state.amountRedur);
   const { roomId } = useParams();
   const [data, setData] = useState("");
   const messageCollectionRef = collection(db, `room/${roomId}/messages`);
@@ -27,7 +31,7 @@ const ChatBody = () => {
   useEffect(() => {
     fetchMessagesFunc();
     fetchDocById(); // eslint-disable-next-line
-  }, [roomId]);
+  }, [setInterval(() => {}, 1000)]);
 
   const fetchDocById = async () => {
     const docRef = doc(db, "room", roomId);
@@ -69,8 +73,15 @@ const ChatBody = () => {
     lastmsgRef.current?.scrollIntoView();
   });
 
+  const toggleChatFunc = () => {
+    dispatch({
+      type: "menuToggleType",
+      payload: true,
+    });
+  };
+
   return (
-    <ChatBodySection>
+    <ChatBodySection toggleByChatHeader={menuToggleState}>
       {roomId ? (
         // chat roomId template section starts here
         <ChatBodySectionBg>
@@ -192,6 +203,12 @@ const ChatBody = () => {
       ) : (
         // chat starting template section starts here
         <ChatBodyStartingTab>
+          <div className="first">
+            <span onClick={toggleChatFunc} className="toggleSpan">
+              <MenuTwoToneIcon />
+              Menu
+            </span>
+          </div>
           <div></div>
           <div className="second">
             <svg
@@ -333,42 +350,51 @@ const ChatBody = () => {
 export default ChatBody;
 
 const ChatBodySection = styled.section`
-  width: 68vw;
-  min-height: 86%;
-  max-height: 72%;
+  flex: 0.75;
+  min-height: 100%;
   background-image: url("https://web.whatsapp.com/img/bg-chat-tile-dark_a4be512e7195b6b733d9110b408f075d.png");
   background-repeat: repeat;
   background-size: 45%;
   background-position: center;
   position: relative;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
   z-index: 100;
+  overflow: hidden;
+  @media only screen and (max-width: 1200px) {
+    flex: 0.65;
+  }
   @media only screen and (max-width: 800px) {
-    width: 100vw;
+    flex: 1;
   }
 `;
 const ChatBodySectionBg = styled.section`
-  width: 100%;
+  min-width: 100%;
   min-height: 100%;
-  background-color: #0d141a86;
-  overflow-x: hidden;
+  background-color: #0d141aea;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
 `;
 const ChatHeaderSpace = styled.div`
-  overflow: hidden;
-  width: 68vw;
-  position: fixed;
   z-index: 1;
   border-bottom: 5px solid #0d141aea;
   @media only screen and (max-width: 800px) {
-    width: 100vw;
+    position: fixed;
+    border-radius: 0 0 10px 10px;
+    top: 0;
+    left: 0;
+    right: 0;
   }
 `;
 const ChatBodyDiv = styled.section`
   width: 100%;
-  padding-bottom: 50px;
-  padding-top: 60px;
+  overflow: hidden;
+  padding-bottom: 65px;
+  @media only screen and (max-width: 800px) {
+    padding-top: 65px;
+  }
 `;
 const Wrap = styled.section`
   position: relative;
@@ -377,6 +403,8 @@ const Wrap = styled.section`
   display: flex;
   flex-direction: column-reverse;
   flex-wrap: nowrap;
+  overflow-y: scroll;
+  overflow-x: hidden;
   .others {
     margin-right: auto;
     background-color: #202c33;
@@ -410,36 +438,47 @@ const User = styled.span`
   color: #00a884;
   font-weight: 500;
   width: 100%;
+  padding: 0 10px;
+  @media only screen and (max-width: 800px) {
+    font-size: 1em;
+  }
 `;
 const Msg = styled.span`
   font-size: 1.3em;
   font-weight: 400;
   letter-spacing: 0.2px;
   color: rgba(225, 225, 225, 0.95);
+  @media only screen and (max-width: 800px) {
+    font-size: 1.1em;
+  }
 `;
 const Time = styled.span`
   font-size: 1.05em;
   color: rgba(225, 225, 225, 0.75);
   margin: 3px 0;
   letter-spacing: 0.5px;
+  @media only screen and (max-width: 800px) {
+    font-size: 0.9em;
+  }
 `;
 const ChatBodyInputSpace = styled.section`
   overflow: hidden;
-  width: 68vw;
-  bottom: 22px;
-  position: fixed;
   z-index: 1;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
   @media only screen and (max-width: 800px) {
-    width: 100vw;
+    position: fixed;
     bottom: 0;
+    width: 100vw;
   }
 `;
 const ChatBodyInput = styled.section`
-  box-sizing: content-box;
+  border-radius: 10px 10px 0 0;
   border-top: 5px solid #0d141aea;
   padding: 10px 20px;
-  height: 6%;
-  background-color: red;
+  height: 65px;
   background-color: var(--componentBgColor);
   display: flex;
   align-items: center;
@@ -490,9 +529,35 @@ const ChatBodyInput = styled.section`
     fill: currentColor;
     cursor: pointer;
   }
+  @media only screen and (max-width: 600px) {
+    padding: 10px 5px;
+    .ChatBodyInput--left {
+      & > span {
+        margin: 0 5px;
+        &:first-child {
+          display: none;
+        }
+      }
+    }
+    .ChatBodyInput--middleForm {
+      width: 100%;
+      & > input {
+        padding: 5px 10px;
+        font-size: 0.85em;
+        letter-spacing: 0.3px;
+      }
+    }
+    .ChatBodyInput--right {
+      margin: 0 5px;
+    }
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
 `;
 const ChatBodyStartingTab = styled.section`
-  padding: 20px 0;
+  padding: 20px 10px;
   background-color: #222e35;
   display: flex;
   flex-direction: column;
@@ -501,6 +566,10 @@ const ChatBodyStartingTab = styled.section`
   width: 100%;
   height: 100%;
   border-bottom: 5px solid #0f7d65;
+  position: relative;
+  .first {
+    display: none;
+  }
   .second {
     display: flex;
     flex-direction: column;
@@ -520,7 +589,7 @@ const ChatBodyStartingTab = styled.section`
       color: rgba(225, 225, 225, 0.5);
       font-size: 0.9rem;
       line-height: 1.4;
-      letter-spacing: 0.86px;
+      letter-spacing: 0.36px;
     }
   }
   .third {
@@ -530,9 +599,64 @@ const ChatBodyStartingTab = styled.section`
     justify-content: center;
     color: rgba(225, 225, 225, 0.5);
     font-size: 0.9rem;
-    letter-spacing: 0.86px;
+    letter-spacing: 0.36px;
     span {
       margin: 0 10px;
+    }
+  }
+  @media only screen and (max-width: 800px) {
+    .first {
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      position: absolute;
+      left: 15px;
+      top: 15px;
+      .toggleSpan {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 1em;
+        font-weight: 500;
+        letter-spacing: 0.4px;
+        color: rgba(225, 225, 225, 0.7);
+        svg {
+          color: rgba(225, 225, 225, 0.7);
+          fill: currentColor;
+          margin-right: 5px;
+          width: 17px;
+          height: 17px;
+        }
+      }
+    }
+  }
+  @media only screen and (max-width: 500px) {
+    .second {
+      & > svg {
+        width: 75%;
+      }
+      & > div > div > h1 {
+        margin-top: 10px;
+        font-size: 1.2em;
+        font-weight: 500;
+        letter-spacing: 0.2px;
+      }
+      & > div > .text {
+        margin-top: 7px;
+        font-size: 0.7rem;
+        line-height: 1.3;
+        letter-spacing: 0.25px;
+      }
+    }
+    .third {
+      display: flex;
+      font-size: 0.85rem;
+      letter-spacing: 0.26px;
+      span {
+        margin: 0 7px;
+      }
     }
   }
 `;

@@ -4,8 +4,10 @@ import { Avatar } from "@mui/material";
 import { Link } from "react-router-dom";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "../firebase";
+import { useDispatch } from "react-redux";
 
 const SidebarChatsCard = ({ name, id }) => {
+  const dispatch = useDispatch();
   const seed = Math.floor(Math.random() * 5000);
   const [lastMessage, setLastMessage] = useState("");
   const [fetchedMessages, setFetchedMessages] = useState("");
@@ -34,8 +36,15 @@ const SidebarChatsCard = ({ name, id }) => {
     setLastMessage(lastSeenVar);
   };
 
+  const toggleChatFunc = () => {
+    dispatch({
+      type: "menuToggleType",
+      payload: false,
+    });
+  };
+
   return (
-    <Link to={`/rooms/${id}`}>
+    <Link to={`/rooms/${id}`} onClick={toggleChatFunc}>
       <ChatsSection>
         <Avatar
           className="avatar"
@@ -56,7 +65,6 @@ const SidebarChatsCard = ({ name, id }) => {
                 : lastMessage.slice(0, 22) + `...`
               : "fetching..."}
           </div>
-          {/* <div className="ChatsSection--time">yesterday</div> */}
         </div>
       </ChatsSection>
     </Link>
@@ -66,47 +74,15 @@ const SidebarChatsCard = ({ name, id }) => {
 export default SidebarChatsCard;
 
 const ChatsSection = styled.div`
-  margin: 5px;
-  padding: 10px;
+  padding: 5px 10px;
+  margin: 8px 5px;
+  height: 52px;
+  border-radius: 10px;
+  background-color: var(--componentBgColor);
   display: flex;
   flex-direction: row;
   align-items: center;
-  background-color: var(--bgColor);
   border-bottom: 0.5px solid rgba(225, 225, 225, 0.15);
-  @media only screen and (max-width: 1350px) {
-    .rightChats {
-      padding: 0 5px;
-      .ChatsSection--lastChat {
-        font-size: 0.75em;
-        color: red;
-      }
-    }
-  }
-  @media only screen and (max-width: 800px) {
-    padding: 5px;
-    margin: 5px;
-    width: 40vw;
-    height: 45px;
-    border: none;
-    border-radius: 10px;
-    background-color: var(--componentBgColor);
-    .avatar {
-      width: 30px;
-      height: 30px;
-    }
-    .rightChats {
-      padding: 0 5px;
-      .ChatsSection--title {
-        color: red;
-      }
-      .ChatsSection--time {
-        display: none;
-      }
-      .ChatsSection--lastChat {
-        display: none;
-      }
-    }
-  }
   &:hover {
     background-color: #162731e0;
   }
@@ -122,25 +98,48 @@ const ChatsSection = styled.div`
       font-size: 1.2em;
       color: #e9edef;
       white-space: nowrap;
-      @media only screen and (max-width: 1350px) {
-        font-size: 1em;
-      }
-      @media only screen and (max-width: 800px) {
-        font-size: 0.8em;
-      }
     }
     .ChatsSection--lastChat {
       font-size: 0.9em;
-      color: #d1d7db;
+      color: #b4b4b4;
       white-space: nowrap;
       width: 90%;
       overflow: hidden;
     }
-    .ChatsSection--time {
-      position: absolute;
-      right: 10px;
-      font-size: 0.75em;
-      color: #8696a0;
+  }
+  @media only screen and (max-width: 1350px) {
+    .rightChats {
+      padding: 0 5px;
+    }
+    .ChatsSection--title {
+      font-size: 1.1em;
+    }
+  }
+  @media only screen and (max-width: 800px) {
+    padding: 5px 10px;
+    margin: 8px 5px;
+    height: 52px;
+    border: none;
+    border-radius: 10px;
+    background-color: var(--componentBgColor);
+    .avatar {
+      width: 30px;
+      height: 30px;
+    }
+    .rightChats {
+      padding: 0 2px;
+    }
+  }
+  @media only screen and (max-width: 550px) {
+    margin: 8px 5px;
+    .rightChats {
+      .ChatsSection--title {
+        font-size: 1em;
+        font-weight: 500;
+      }
+      .ChatsSection--lastChat {
+        font-size: 0.9em;
+      }
     }
   }
 `;
