@@ -102,6 +102,7 @@ const ChatBodyHeaderSection = styled.nav`
       height: 36px;
       cursor: pointer;
       margin: 0 10px;
+      margin-right: 20px;
     }
     .ChatBodyHeader--left--info {
       display: inherit;
@@ -140,6 +141,7 @@ const ChatBodyHeaderSection = styled.nav`
         height: 30px;
         cursor: pointer;
         margin: 0 5px;
+        margin-right: 20px;
       }
       .ChatBodyHeader--left--info {
         display: inherit;

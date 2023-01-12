@@ -174,14 +174,13 @@ const SideChatsSearch = styled.div`
       border: none;
       outline: none;
       font-size: 0.85em;
-      letter-spacing: 0.2px;
       font-weight: 500;
       color: rgba(225, 225, 225, 0.4);
       &::placeholder {
         color: rgba(225, 225, 225, 0.4);
       }
       @media only screen and (max-width: 800px) {
-        padding: 5px 0px;
+        padding: 5px 10px;
       }
     }
   }

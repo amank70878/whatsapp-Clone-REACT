@@ -28,11 +28,6 @@ const ChatBody = () => {
   const loggedUserEmail = localStorage.getItem("loggedInWhatsappCloneEmail");
   const lastmsgRef = useRef(null);
 
-  useEffect(() => {
-    fetchMessagesFunc();
-    fetchDocById(); // eslint-disable-next-line
-  }, [setInterval(() => {}, 1000)]);
-
   const fetchDocById = async () => {
     const docRef = doc(db, "room", roomId);
     const docSnap = await getDoc(docRef);
@@ -53,8 +48,11 @@ const ChatBody = () => {
     fetchMessagesFunc();
   };
 
+  useEffect(() => {
+    fetchMessagesFunc(); // eslint-disable-next-line
+  }, [iMessage, roomId, data, loggedUserName]);
+
   const fetchMessagesFunc = async () => {
-    lastmsgRef.current?.scrollIntoView();
     const msgDataCollectionRef = collection(db, `room/${roomId}/messages`);
     const q = query(msgDataCollectionRef, orderBy("timestamp", "desc"));
     const result = await getDocs(q);
@@ -65,13 +63,6 @@ const ChatBody = () => {
       }))
     );
   };
-
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-      fetchMessagesFunc();
-    }
-    lastmsgRef.current?.scrollIntoView();
-  });
 
   const toggleChatFunc = () => {
     dispatch({
@@ -94,7 +85,7 @@ const ChatBody = () => {
           <ChatBodyDiv>
             <Wrap>
               {!fetchedMessages ? (
-                <h1>Please send some messages to Chat</h1>
+                <h1 style={{ textAlign: "center" }}>no messages</h1>
               ) : (
                 fetchedMessages.map((msg, kay) => {
                   kay++;
